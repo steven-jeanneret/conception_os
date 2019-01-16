@@ -1,5 +1,12 @@
 # conception_os_project
-
+## Tasks
+* Affichage d'un vecteur composé d'une ligne et de x colonne
+* Affichage des 2 vecteurs à additionner
+* Affichage du vecteur résultat
+* Animation pour les calculs de v1 et v2 vers v3
+  * Afficher les cellules parcourus
+  * Afficher les cellules actuels
+ 
 ## Project setup
 ```
 npm install
