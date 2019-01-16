@@ -1,7 +1,16 @@
 <template>
   <div id="app">
+    <div class="row">
+      <div class="col-6">
     <Table :values="[3,4,5]"/>
     <Table :values="[7,8,9]"/>
+        </div>
+      <div class="col-6">
+    <Table :values="[1,6,8]"/>
+    <Table :values="[6,4,1]"/>
+      </div>
+      </div>
+
   </div>
 </template>
 
