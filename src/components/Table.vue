@@ -6,8 +6,10 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="my-2" :style="{width: sizeT}">
-                <i class="fas fa-arrow-down" v-for="i in slice(v1.length)" v-show="show[i]" style="width: 140px"></i>
+            <div :style="{width: sizeT}">
+                <div v-for="i in slice(v1.length)" class="element">
+                    <i class="fas fa-arrow-down" v-show="show[i]"></i>
+                </div>
             </div>
         </div>
         <div class="col-6">
@@ -23,7 +25,7 @@
 
 <script>
   import Cell from './Cell'
-  import Vue from 'vue';
+  import Vue from 'vue'
 
   export default {
     name: 'Table',
@@ -37,13 +39,12 @@
     },
     methods: {
       startAnimation () {
-        //Vue.set(this.show, 0, true)
         Vue.set(this.show, 0, true)
+        Vue.set(this.show, 1, true)
         Vue.set(this.show, 2, true)
-        //this.animRunning = true
       },
       slice (n) {
-        return Array.from(new Array(n), (val, index)=>index)
+        return Array.from(new Array(n), (val, index) => index)
       }
     },
     props: {
@@ -67,5 +68,10 @@
 <style scoped>
     .table_container {
         background: rgba(45, 51, 45, 0.15);
+    }
+
+    .element {
+        width: 120px;
+        display: inline-block;
     }
 </style>
