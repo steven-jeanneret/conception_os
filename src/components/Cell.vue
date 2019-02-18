@@ -8,7 +8,7 @@
   export default {
     name: 'Cell',
     props: {
-      value: {type: Number, default: 0}
+      value: {type: Number, default: null}
     },
   }
 </script>
@@ -19,7 +19,7 @@
         background: rgba(45, 51, 45, 0.35);
         width: 100px;
         height: 100px;
-        padding-top: 50px;
+        padding-top: 30px;
         margin: 10px;
     }
     .cell-value {

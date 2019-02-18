@@ -8,13 +8,27 @@
         <div class="col-6">
             <div :style="{width: sizeT}">
                 <div v-for="i in slice(v1.length)" :key="i" class="element">
-                    <i class="fas fa-arrow-down" v-show="show[i]"></i>
+                    <span v-show="show[i]"><i class="fas fa-arrow-down"></i> thread {{parallel ? i : 0}}</span>
                 </div>
             </div>
         </div>
         <div class="col-6">
             <div class="my-2 table_container border border-primary" :style="{width: sizeT}">
                 <cell v-for="value in v2" :value="value" :key="value"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div :style="{width: sizeT}">
+                <div v-for="i in slice(v1.length)" :key="i" class="element">
+                    <span v-show="show2[i]"><i class="fas fa-arrow-down"></i> thread {{parallel ? i : 0}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="my-2 table_container border border-primary" :style="{width: sizeT}" v-show="show2[0]">
+                <div v-for="i in slice(v1.length)" :key="i" class="element">
+                    <cell :key="i" :value="v1[i] + v2[i]" v-show="show2[i]"/>
+                </div>
             </div>
         </div>
         <div class="col-6">
@@ -35,6 +49,7 @@
         sizeTable: 0,
         animRunning: false,
         show: [],
+        show2: [],
       }
     },
     methods: {
@@ -43,6 +58,9 @@
         for (let i = 0; i < this.v1.length; i++) {
           setTimeout(function () {
             Vue.set(instance.show, i, true)
+            setTimeout(function() {
+              Vue.set(instance.show2, i, true)
+            }, 200)
           }, (instance.parallel) ? 0 : i * 1000)
         }
       },
@@ -64,6 +82,7 @@
       this.sizeTable = this.v1.length * 140
       for (let i = 0; i < this.v1.length; i++) {
         this.show.push(false)
+        this.show2.push(false)
       }
     },
   }
