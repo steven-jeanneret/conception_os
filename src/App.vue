@@ -5,7 +5,7 @@
                 <Table :v1="[3,4,5]" :v2="[7,8,9]"/>
             </div>
             <div class="col-6">
-                <Table :v1="[1,6,8]" :v2="[6,4,1]"/>
+                <Table :v1="[1,6,8]" :v2="[6,4,1]" :parallel="true"/>
             </div>
         </div>
 

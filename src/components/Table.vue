@@ -2,19 +2,19 @@
     <div>
         <div class="col-6">
             <div class="my-2 table_container border border-primary" :style="{width: sizeT}">
-                <cell v-for="value in v1" :value="value"/>
+                <cell v-for="value in v1" :value="value" :key="value"/>
             </div>
         </div>
         <div class="col-6">
             <div :style="{width: sizeT}">
-                <div v-for="i in slice(v1.length)" class="element">
+                <div v-for="i in slice(v1.length)" :key="i" class="element">
                     <i class="fas fa-arrow-down" v-show="show[i]"></i>
                 </div>
             </div>
         </div>
         <div class="col-6">
             <div class="my-2 table_container border border-primary" :style="{width: sizeT}">
-                <cell v-for="value in v2" :value="value"/>
+                <cell v-for="value in v2" :value="value" :key="value"/>
             </div>
         </div>
         <div class="col-6">
@@ -39,9 +39,12 @@
     },
     methods: {
       startAnimation () {
-        Vue.set(this.show, 0, true)
-        Vue.set(this.show, 1, true)
-        Vue.set(this.show, 2, true)
+        let instance = this
+        for (let i = 0; i < this.v1.length; i++) {
+          setTimeout(function () {
+            Vue.set(instance.show, i, true)
+          }, (instance.parallel) ? 0 : i * 1000)
+        }
       },
       slice (n) {
         return Array.from(new Array(n), (val, index) => index)
@@ -50,6 +53,7 @@
     props: {
       v1: { type: Array },
       v2: { type: Array },
+      parallel: {type: Boolean, default: false}
     },
     computed: {
       sizeT () {
