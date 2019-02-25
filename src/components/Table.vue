@@ -100,7 +100,7 @@
       },
     },
     mounted () {
-      this.sizeTable = this.v1.length * 140
+      this.sizeTable = this.v1.length * 120 + 20
     },
   }
 </script>

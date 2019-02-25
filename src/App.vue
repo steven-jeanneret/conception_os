@@ -2,10 +2,10 @@
   <div id="app">
     <div class="row">
       <div class="col-6">
-        <Table :v1="[3,4,5]" :v2="[7,8,9]"/>
+        <Table :v1="[3,4,5,6,7,8]" :v2="[4,5,6,7,8,9]"/>
       </div>
       <div class="col-6">
-        <Table :v1="[3,4,5]" :v2="[7,8,9]" :parallel="true"/>
+        <Table :v1="[3,4,5,6,7,8]" :v2="[4,5,6,7,8,9]" :parallel="true"/>
       </div>
     </div>
 
