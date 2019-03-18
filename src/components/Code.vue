@@ -1,6 +1,6 @@
 <template>
-    <pre class="language-c line-numbers">
-        <code>{{sourceCodeParallel}}</code>
+    <pre class="language-c line-numbers " :data-line="line">
+        <code  v-if="parallel">{{sourceCodeParallel}}</code>
     </pre>
 </template>
 
@@ -9,8 +9,13 @@
     import 'prismjs/components/prism-c'
     import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
     import 'prismjs/plugins/line-numbers/prism-line-numbers'
+    import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
+    import 'prismjs/plugins/line-highlight/prism-line-highlight'
     import 'prismjs/themes/prism.css'
+
+
     export default {
+
         props: {
             parallel: {type: Boolean}
         },
@@ -52,9 +57,19 @@
 
 
 
-           `
+           `,
+                line: 1,
             }
-        }
+        },
+        methods: {
+            forceRerender() {
+                this.line += 1;
+                Prism.highlightAll()
+            }
+        },
+        mounted() {
+            setInterval(()=>{this.forceRerender();},2000)
+        },
     }
 </script>
 
