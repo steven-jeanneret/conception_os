@@ -1,6 +1,6 @@
 <template>
     <pre class="language-c line-numbers " :data-line="line">
-        <code  v-if="parallel">{{sourceCodeParallel}}</code>
+        <code v-if="parallel">{{sourceCode}}</code> <code v-else>{{sourceCodeParallel}}</code>
     </pre>
 </template>
 
@@ -68,7 +68,9 @@
             }
         },
         mounted() {
-            setInterval(()=>{this.forceRerender();},2000)
+            setInterval(() => {
+                this.forceRerender();
+            }, 2000)
         },
     }
 </script>
