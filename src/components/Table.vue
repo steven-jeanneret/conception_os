@@ -1,34 +1,34 @@
 <template>
-  <div class="">
-    <div class="">
+  <div>
+    <div>
       <div class="my-2 table_container border border-primary">
         <cell v-for="i in slice(v1.length)" :value="v1[i]" :nb-array="0" :index="i" :key="i"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <div>
         <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="0" :index="i"
                :parallel="parallel"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <div class="my-2 table_container border border-primary">
         <cell v-for="i in slice(v2.length)" :value="v2[i]" :nb-array="1" :index="i" :key="i"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <div>
         <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="1" :index="i"
                :parallel="parallel"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <div class="my-2 table_container border border-primary" v-show="show2[0]">
         <cell v-for="i in slice(v1.length)" :key="i" :value="v3[i]" v-show="show2[i]" :nb-array="2"
               :index="i"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <button @click="startAnimation">{{btnText}}</button>
     </div>
   </div>
