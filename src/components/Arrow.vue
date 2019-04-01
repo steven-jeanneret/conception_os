@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-show="isVisible" :class="textColor"><i class="fas fa-arrow-down"></i> thread {{parallel ? index : 0}}</span>
+    <span v-show="isVisible" :class="textColor"><i class="fas fa-arrow-down"></i> th. {{parallel ? index : 0}}</span>
   </div>
 </template>
 
@@ -28,5 +28,9 @@
 </script>
 
 <style scoped>
-
+div {
+  display:inline-block;
+  margin: 0 10px;
+  width: 50px;
+}
 </style>
