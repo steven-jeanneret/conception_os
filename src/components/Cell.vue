@@ -1,5 +1,5 @@
 <template>
-  <div class="border cell" :class="borderColor">
+  <div class="border cell col-auto px-0 text-center" :class="borderColor">
     <span class="cell-value">{{value}}</span>
   </div>
 </template>
@@ -24,13 +24,12 @@
   .cell {
     display: inline-block;
     background: rgba(45, 51, 45, 0.35);
-    width: 100px;
-    height: 100px;
-    padding-top: 30px;
+    width: 50px;
     margin: 10px;
   }
 
   .cell-value {
     font-size: 20pt;
+    width: 50px;
   }
 </style>
