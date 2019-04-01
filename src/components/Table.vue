@@ -35,6 +35,9 @@
         <div class="my-2 table_container border border-primary" v-show="show3[0]">
             <cell v-for="i in slice(v4.length)" :value="v4[i]" :nb-array="0" :index="i" :key="i"/>
         </div>
+        <div class="my-2 table_container border border-primary" v-show="show3[0]">
+            <cell v-for="i in slice(v5.length)" :value="v5[i]" :nb-array="0" :index="i" :key="i"/>
+        </div>
         <div>
             <button @click="startAnimation">{{btnText}}</button>
         </div>
@@ -62,6 +65,7 @@
         btnText: 'Start',
         v3: [],
         v4: [],
+        v5: [],
 
       }
     },
@@ -126,13 +130,20 @@
           this.v3[i] = this.v1[i] * this.v2[i]
         }
 
-
         let moitier = this.v3.length / 2
         for (let i = 0; i < moitier; i++) {
           this.v4[i] = this.v3[i] + this.v3[i + moitier]
         }
-      })
+        let moitier2 = Math.ceil(this.v4.length / 2)
+        console.log(moitier2)
+        for (let i = 0; i < moitier2; i++) {
+          this.v5[i] = this.v4[i]
+          if (i + moitier2 < this.v4.length) {
+            this.v5[i] +=this.v4[i + moitier2]
+          }
 
+        }
+      })
 
     },
   }
@@ -142,7 +153,7 @@
     .table_container {
         background: rgba(45, 51, 45, 0.15);
     }
-    
+
     .element {
         display: inline-block;
     }
