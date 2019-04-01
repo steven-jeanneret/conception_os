@@ -1,34 +1,34 @@
 <template>
-  <div>
-    <div>
+  <div class="">
+    <div class="">
       <div class="my-2 table_container border border-primary">
         <cell v-for="i in slice(v1.length)" :value="v1[i]" :nb-array="0" :index="i" :key="i"/>
       </div>
     </div>
-    <div>
+    <div class="">
       <div>
         <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="0" :index="i"
                :parallel="parallel"/>
       </div>
     </div>
-    <div>
+    <div class="">
       <div class="my-2 table_container border border-primary">
         <cell v-for="i in slice(v2.length)" :value="v2[i]" :nb-array="1" :index="i" :key="i"/>
       </div>
     </div>
-    <div>
+    <div class="">
       <div>
         <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="1" :index="i"
                :parallel="parallel"/>
       </div>
     </div>
-    <div>
+    <div class="">
       <div class="my-2 table_container border border-primary" v-show="show2[0]">
-        <cell v-for="i in slice(v1.length)" :key="i" :value="v3[i]" v-show="show2[i]" :nb-array="2"
+        <cell v-for="i in slice(v1.length)" :key="i" class="element" :value="v3[i]" v-show="show2[i]" :nb-array="2"
               :index="i"/>
       </div>
     </div>
-    <div>
+    <div class="">
       <button @click="startAnimation">{{btnText}}</button>
     </div>
   </div>
@@ -46,7 +46,6 @@
     components: { Cell, Arrow },
     data () {
       return {
-        sizeTable: 0,
         animHasRunned: false,
         show: [],
         show2: [],
@@ -96,16 +95,12 @@
       v2: { type: Array },
       parallel: { type: Boolean, default: false }
     },
-    computed: {
-      sizeT () {
-        return this.sizeTable + 'px'
-      },
-    },
     mounted () {
-      this.sizeTable = this.v1.length * 120 + 20
-      for (let i in this.slice(this.v1.length)) {
-        this.v3[i] = this.v1[i] * this.v2[i]
-      }
+      this.$nextTick(() => {
+        for (let i in this.slice(this.v1.length)) {
+          this.v3[i] = this.v1[i] * this.v2[i]
+        }
+      })
     },
   }
 </script>
@@ -116,6 +111,7 @@
   }
 
   .element {
+    /*width: 120px;*/
     display: inline-block;
   }
 </style>
