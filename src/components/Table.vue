@@ -38,6 +38,7 @@
         <div>
             <button @click="startAnimation">{{btnText}}</button>
         </div>
+
     </div>
 </template>
 
@@ -53,7 +54,6 @@
     components: { Cell, Arrow },
     data () {
       return {
-        sizeTable: 0,
         animHasRunned: false,
         show: [],
         show2: [],
@@ -119,23 +119,20 @@
       v2: { type: Array },
       parallel: { type: Boolean, default: false }
     },
-    computed: {
-      sizeT () {
-        return this.sizeTable + 'px'
-      },
-    },
     mounted () {
-      this.sizeTable = this.v1.length * 120 + 20
+
       this.$nextTick(() => {
         for (let i in this.slice(this.v1.length)) {
           this.v3[i] = this.v1[i] * this.v2[i]
         }
+
 
         let moitier = this.v3.length / 2
         for (let i = 0; i < moitier; i++) {
           this.v4[i] = this.v3[i] + this.v3[i + moitier]
         }
       })
+
 
     },
   }
@@ -145,8 +142,9 @@
     .table_container {
         background: rgba(45, 51, 45, 0.15);
     }
-
+    
     .element {
         display: inline-block;
     }
+
 </style>

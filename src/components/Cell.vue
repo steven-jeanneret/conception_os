@@ -25,11 +25,12 @@
     display: inline-block;
     background: rgba(45, 51, 45, 0.35);
     width: 50px;
+    height: 50px;
     margin: 10px;
   }
 
   .cell-value {
     font-size: 20pt;
-    width: 50px;
+
   }
 </style>
