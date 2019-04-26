@@ -42,10 +42,9 @@
               v-show="colorVReduction[index][i]===1"/>
       </div>
     </div>
-    <div>
-      <button @click="startAnimation">{{btnText}}</button>
+    <div class="text-center">
+      <button class="btn btn-primary" :disabled="animIsRunning" @click="startAnimation">{{btnText}}</button>
     </div>
-
   </div>
 </template>
 
@@ -61,7 +60,7 @@
     components: { Cell, Arrow },
     data () {
       return {
-        animHasRunned: false,
+        animIsRunning: false,
         colorV1: [],
         colorV2: [],
 
@@ -74,14 +73,13 @@
     },
     methods: {
       startAnimation () {
-        if (this.animHasRunned) {
-          this.btnText = 'Start'
+        if(!this.animIsRunning) {
+          this.animIsRunning = true
+          this.btnText = 'Restart'
           this.colorV1 = []
           this.colorV2 = []
-
           this.colorVReduction = []
-        } else {
-          this.btnText = 'Clear'
+
           let instance = this
           for (let i = 0; i < this.v1.length; i++) {
             setTimeout(function () {
@@ -99,7 +97,6 @@
             }, instance.timeBetweenThread(i))
           }
         }
-        this.animHasRunned = !this.animHasRunned
       },
 
       reduction () {
@@ -112,6 +109,9 @@
             setTimeout(function () {
               Vue.set(instance.colorVReduction[j], i, 1)
               instance.$forceUpdate()
+              if(j === instance.vReduction.length-1 && i === instance.vReduction[j].length-1) {
+                instance.animIsRunning = false
+              }
             }, totalSleep + instance.timeBetweenThread(i))
           }
           totalSleep += instance.timeBetweenThread(instance.vReduction[j].length)

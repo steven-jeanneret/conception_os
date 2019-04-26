@@ -26,9 +26,8 @@
         }
         if (this.nbArray === 0) {
           return this.$parent.colorV1[this.index]
-        } else {
-          return this.$parent.colorV2[this.index]
         }
+        return this.$parent.colorV2[this.index]
       }
     }
   }
