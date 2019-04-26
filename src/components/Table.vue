@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-
       <div class="my-2 table_container border border-primary">
         <cell v-for="i in slice(v1.length)" :value="v1[i]" :nb-array="0" :index="i" :key="i"/>
       </div>
@@ -20,7 +19,7 @@
     </div>
     <div>
       <div>
-        <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="1" :index="i"
+        <arrow v-for="i in slice(v1.length)" :key="i" class="element" :nb-array="2" :index="i"
                :parallel="parallel"/>
       </div>
     </div>
@@ -81,21 +80,21 @@
         if (!this.animIsRunning) {
           this.animIsRunning = true
           this.btnText = 'Restart'
-          let instance = this
           for (let i = 0; i < this.v1.length; i++) {
-            setTimeout(function () {
-              Vue.set(instance.colorV1, i, 1)
-              setTimeout(function () {
-                Vue.set(instance.colorV1, i, 2)
-                Vue.set(instance.colorV2, i, 1)
-                setTimeout(function () {
-                  Vue.set(instance.colorV2, i, 2)
-                  if (i === instance.v1.length - 1) {
-                    instance.reduction()
-                  }
-                }, instance.animTime)
-              }, instance.animTime)
-            }, instance.timeBetweenThread(i) + instance.animTime)
+            let timeTemp = this.parallel ? (Math.floor(i/this.nbCore)+1) : i
+            setTimeout(() => {
+              Vue.set(this.colorV1, i, 1)
+            }, (this.animTime * 2 * timeTemp))
+            setTimeout(() => {
+              Vue.set(this.colorV1, i, 2)
+              Vue.set(this.colorV2, i, 1)
+            }, (this.animTime * 2 * timeTemp + this.animTime))
+            setTimeout(() => {
+              Vue.set(this.colorV2, i, 2)
+              if (i === this.v1.length - 1) {
+                this.reduction()
+              }
+            }, (this.animTime * 2 * timeTemp + this.animTime*2))
           }
         }
       },
@@ -104,21 +103,20 @@
         this.startAnimation()
       },
       reduction () {
-        let instance = this
         let totalSleep = 0
         for (let j = 0; j < this.vReduction.length; ++j) {
-          instance.colorVReduction[j] = [0]
+          this.colorVReduction[j] = [0]
           totalSleep += this.animTime
-          for (let i = 0; i < instance.vReduction[j].length; ++i) {
-            setTimeout(function () {
-              Vue.set(instance.colorVReduction[j], i, 1)
-              instance.$forceUpdate()
-              if (j === instance.vReduction.length - 1 && i === instance.vReduction[j].length - 1) {
-                instance.animIsRunning = false
+          for (let i = 0; i < this.vReduction[j].length; ++i) {
+            setTimeout(() => {
+              Vue.set(this.colorVReduction[j], i, 1)
+              this.$forceUpdate()
+              if (j === this.vReduction.length - 1 && i === this.vReduction[j].length - 1) {
+                this.animIsRunning = false
               }
-            }, totalSleep + instance.timeBetweenThread(i))
+            }, totalSleep + this.timeBetweenThread(i))
           }
-          totalSleep += instance.timeBetweenThread(instance.vReduction[j].length)
+          totalSleep += this.timeBetweenThread(this.vReduction[j].length)
         }
       },
 
@@ -135,15 +133,21 @@
         let val
         if (nbArray === 0) {
           val = this.colorV1[index]
+        } else if (nbArray === 1) {
+          if (this.colorV1[index] === 1 || this.colorV2[index] === 1) {
+            val = 1
+          } else {
+            val = this.colorV1[index] || this.colorV2[index]
+          }
         } else {
           val = this.colorV2[index]
         }
-        return val !== 1 ? 'primary' : 'danger'
+        return val === 1 ? 'danger' : 'primary'
       },
       timeBetweenThread (i) {
         return (this.parallel) ? 0 : i * this.animTime
       },
-      init() {
+      init () {
         for (let i in this.slice(this.v1.length)) {
           this.vResult[i] = this.v1[i] * this.v2[i]
         }
@@ -168,8 +172,11 @@
       }
     },
     computed: {
-      animTime() {
+      animTime () {
         return this.$parent.animTime
+      },
+      nbCore() {
+        return this.$parent.nbCore
       }
     },
     props: {

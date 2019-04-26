@@ -20,8 +20,8 @@
       <div class="row justify-content-md-center text-center">
         <div class="col-4">
           <div>
-            Animation time : {{animTime}} ms
-            <vue-slider v-model="animTime" :min="100" :max="2000" :interval="100"></vue-slider>
+            Number of cores : {{nbCore}}
+            <vue-slider v-model="nbCore" :min="1" :max="16" :interval="1"></vue-slider>
           </div>
         </div>
       </div>
@@ -66,6 +66,7 @@
         nbElem: 10,
         buttonText: 'Start all',
         animTime: baseAnimTime,
+        nbCore: 4,
       }
     },
     mounted () {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-show="isVisible" :class="textColor"><i class="fas fa-arrow-down"></i> {{parallel ? index : 0}}</span>
+    <span v-show="isVisible" :class="textColor"><i class="fas fa-arrow-down"></i> {{parallel ? index%$parent.nbCore : 0}}</span>
   </div>
 </template>
 
