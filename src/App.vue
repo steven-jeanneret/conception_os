@@ -11,7 +11,8 @@
     <div class="row">
       <div class="col">
         <div class="text-center">
-          <button class="btn btn-primary" @click="runAll">{{buttonText}}</button>
+          <button class="btn btn-primary mr-2" @click="runAll">{{buttonText}}</button>
+          <button class="btn btn-primary" @click="cleanAll">Clean all</button>
         </div>
       </div>
     </div>
@@ -46,9 +47,14 @@
       },
       runAll () {
         this.buttonText = 'Restart all'
-        this.$refs['table1'].startAnimation()
-        this.$refs['table2'].startAnimation()
-      }
+        this.$refs['table1'].restartAnimation()
+        this.$refs['table2'].restartAnimation()
+      },
+      cleanAll() {
+        this.buttonText = 'Start all'
+        this.$refs['table1'].cleanAnmiation()
+        this.$refs['table2'].cleanAnmiation()
+      },
     },
   }
 </script>
