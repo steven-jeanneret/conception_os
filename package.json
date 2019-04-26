@@ -10,7 +10,8 @@
   "dependencies": {
     "prismjs": "^1.15.0",
     "vue": "^2.5.21",
-    "vue-prism-component": "^1.1.1"
+    "vue-prism-component": "^1.1.1",
+    "vue-slider-component": "^3.0.30"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

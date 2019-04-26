@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="text-center">
-      <button class="btn btn-primary mr-2" :disabled="animIsRunning" @click="startAnimation">{{btnText}}</button>
+      <button class="btn btn-primary mr-2" :disabled="animIsRunning" @click="restartAnimation">{{btnText}}</button>
       <button class="btn btn-primary" :disabled="animIsRunning" @click="cleanAnmiation">Clean</button>
     </div>
   </div>
@@ -54,8 +54,6 @@
   import Vue from 'vue'
   import Arrow from './Arrow'
 
-  const animTime = 500
-
   export default {
     name: 'Table',
     components: { Cell, Arrow },
@@ -64,7 +62,6 @@
         animIsRunning: false,
         colorV1: [],
         colorV2: [],
-
         colorVReduction: [],
         btnText: 'Start',
         vResult: [],
@@ -74,12 +71,11 @@
     },
     methods: {
       cleanAnmiation () {
-        if (!this.animIsRunning) {
-          this.colorV1 = []
-          this.colorV2 = []
-          this.colorVReduction = []
-          this.btnText = 'Start'
-        }
+        this.colorV1 = []
+        this.colorV2 = []
+        this.colorVReduction = []
+        this.btnText = 'Start'
+        this.animIsRunning = false
       },
       startAnimation () {
         if (!this.animIsRunning) {
@@ -97,9 +93,9 @@
                   if (i === instance.v1.length - 1) {
                     instance.reduction()
                   }
-                }, animTime)
-              }, animTime)
-            }, instance.timeBetweenThread(i))
+                }, instance.animTime)
+              }, instance.animTime)
+            }, instance.timeBetweenThread(i) + instance.animTime)
           }
         }
       },
@@ -107,13 +103,12 @@
         this.cleanAnmiation()
         this.startAnimation()
       },
-
       reduction () {
         let instance = this
         let totalSleep = 0
         for (let j = 0; j < this.vReduction.length; ++j) {
           instance.colorVReduction[j] = [0]
-          totalSleep += animTime
+          totalSleep += this.animTime
           for (let i = 0; i < instance.vReduction[j].length; ++i) {
             setTimeout(function () {
               Vue.set(instance.colorVReduction[j], i, 1)
@@ -146,16 +141,9 @@
         return val !== 1 ? 'primary' : 'danger'
       },
       timeBetweenThread (i) {
-        return (this.parallel) ? 0 : i * 500
-      }
-    },
-    props: {
-      v1: { type: Array },
-      v2: { type: Array },
-      parallel: { type: Boolean, default: false }
-    },
-    mounted () {
-      this.$nextTick(() => {
+        return (this.parallel) ? 0 : i * this.animTime
+      },
+      init() {
         for (let i in this.slice(this.v1.length)) {
           this.vResult[i] = this.v1[i] * this.v2[i]
         }
@@ -175,7 +163,23 @@
             }
           }
           Vue.set(this.vReductionIndex, j, j)
+          this.cleanAnmiation()
         }
+      }
+    },
+    computed: {
+      animTime() {
+        return this.$parent.animTime
+      }
+    },
+    props: {
+      v1: { type: Array },
+      v2: { type: Array },
+      parallel: { type: Boolean, default: false }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.init()
       })
     },
   }
