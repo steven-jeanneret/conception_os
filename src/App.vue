@@ -5,7 +5,7 @@
         <div class="col-4">
           <div>
             Animation time : {{animTime}} ms
-            <vue-slider v-model="animTime" :min="100" :max="2000" :interval="100"></vue-slider>
+            <vue-slider v-model="animTime" :min="100" :max="5000" :interval="100"></vue-slider>
           </div>
         </div>
       </div>

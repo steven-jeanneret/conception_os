@@ -38,7 +38,7 @@
       </div>
       <div class="my-2 table_container border border-primary" v-show="colorVReduction[index][0]===1">
         <cell v-for="(v, i) in vReduction[index]" :value="v" :nb-array="index" :index="i" :key="i"
-              v-show="colorVReduction[index][i]===1"/>
+              v-show="colorVReduction[index][i]===1" :reduction="true"/>
       </div>
     </div>
     <div class="text-center">
@@ -81,7 +81,7 @@
           this.animIsRunning = true
           this.btnText = 'Restart'
           for (let i = 0; i < this.v1.length; i++) {
-            let sequenceCore = (this.parallel ? Math.floor(i / this.nbCore) : i) + 1
+            let sequenceCore = (this.parallel ? Math.floor(i / this.nbCore) : i)
             setTimeout(() => {
               Vue.set(this.colorV1, i, 1) //Color in red first cell + first arrow + second cell
             }, (this.animTime * 2 * sequenceCore))
@@ -132,7 +132,7 @@
       colorComponent (nbArray, index, isReduction = false) {
         let val
         if (isReduction) {
-
+          val = this.colorVReduction[nbArray][index]
         } else if (nbArray === 0) {
           val = this.colorV1[index]
         } else if (nbArray === 1) {
