@@ -11,10 +11,11 @@
       value: { type: Number, default: null },
       nbArray: { type: Number, default: 0},
       index: { type: Number, default: 0},
+      reduction: { type: Boolean, default: false },
     },
     computed: {
       borderColor() {
-        return 'border-' + this.$parent.colorComponent(this.nbArray, this.index)
+        return 'border-' + this.$parent.colorComponent(this.nbArray, this.index, this.reduction)
       }
     },
   }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-show="isVisible" :class="textColor"><i class="fas fa-arrow-down"></i> {{parallel ? index%$parent.nbCore : 0}}</span>
+    <span v-show="isVisible" class="ml-2" :class="textColor"><i class="fas fa-arrow-down"></i> {{parallel ? index%$parent.nbCore : 0}}</span>
   </div>
 </template>
 
@@ -15,10 +15,10 @@
     },
     computed: {
       textColor () {
-        if (this.reduction) {
-          return 'text-primary'
-        }
-        return 'text-' + this.$parent.colorComponent(this.nbArray, this.index)
+        // if (this.reduction) {
+        //   return 'text-primary'
+        // }
+        return 'text-' + this.$parent.colorComponent(this.nbArray, this.index, this.reduction)
       },
       isVisible () {
         if (this.reduction) {

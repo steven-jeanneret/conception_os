@@ -37,7 +37,7 @@
                :parallel="parallel" :reduction="true" v-show="colorVReduction[index][i]===1"/>
       </div>
       <div class="my-2 table_container border border-primary" v-show="colorVReduction[index][0]===1">
-        <cell v-for="(v, i) in vReduction[index]" :value="v" :nb-array="0" :index="i" :key="i"
+        <cell v-for="(v, i) in vReduction[index]" :value="v" :nb-array="index" :index="i" :key="i"
               v-show="colorVReduction[index][i]===1"/>
       </div>
     </div>
@@ -81,20 +81,20 @@
           this.animIsRunning = true
           this.btnText = 'Restart'
           for (let i = 0; i < this.v1.length; i++) {
-            let timeTemp = this.parallel ? (Math.floor(i/this.nbCore)+1) : i
+            let sequenceCore = (this.parallel ? Math.floor(i / this.nbCore) : i) + 1
             setTimeout(() => {
-              Vue.set(this.colorV1, i, 1)
-            }, (this.animTime * 2 * timeTemp))
+              Vue.set(this.colorV1, i, 1) //Color in red first cell + first arrow + second cell
+            }, (this.animTime * 2 * sequenceCore))
             setTimeout(() => {
-              Vue.set(this.colorV1, i, 2)
-              Vue.set(this.colorV2, i, 1)
-            }, (this.animTime * 2 * timeTemp + this.animTime))
+              Vue.set(this.colorV1, i, 2) //Remove red on first cell + first arrow + second cell
+              Vue.set(this.colorV2, i, 1) //Color in red second cell + second arrow + third cell
+            }, (this.animTime * 2 * sequenceCore + this.animTime))
             setTimeout(() => {
-              Vue.set(this.colorV2, i, 2)
+              Vue.set(this.colorV2, i, 2) //Remove red on second cell + second arrow + third cell
               if (i === this.v1.length - 1) {
-                this.reduction()
+                this.reduction() //If last cell reduce
               }
-            }, (this.animTime * 2 * timeTemp + this.animTime*2))
+            }, (this.animTime * 2 * sequenceCore + this.animTime * 2))
           }
         }
       },
@@ -106,20 +106,20 @@
         let totalSleep = 0
         for (let j = 0; j < this.vReduction.length; ++j) {
           this.colorVReduction[j] = [0]
-          totalSleep += this.animTime
+          let timeSleep = 0
           for (let i = 0; i < this.vReduction[j].length; ++i) {
+            timeSleep = ((this.parallel ? (Math.floor(i / this.nbCore)) : i) + 1) * this.animTime
             setTimeout(() => {
               Vue.set(this.colorVReduction[j], i, 1)
-              this.$forceUpdate()
+              this.$forceUpdate() //Force redraw else redraw when all cell are finished
               if (j === this.vReduction.length - 1 && i === this.vReduction[j].length - 1) {
-                this.animIsRunning = false
+                this.animIsRunning = false //Last cell draw, anim is finished
               }
-            }, totalSleep + this.timeBetweenThread(i))
+            }, totalSleep + timeSleep)
           }
-          totalSleep += this.timeBetweenThread(this.vReduction[j].length)
+          totalSleep += timeSleep
         }
       },
-
       slice (n) {
         return this.range(0, n)
       },
@@ -129,9 +129,11 @@
         }
         return Array.from(new Array(end - start), (val, index) => index + start)
       },
-      colorComponent (nbArray, index) {
+      colorComponent (nbArray, index, isReduction = false) {
         let val
-        if (nbArray === 0) {
+        if (isReduction) {
+
+        } else if (nbArray === 0) {
           val = this.colorV1[index]
         } else if (nbArray === 1) {
           if (this.colorV1[index] === 1 || this.colorV2[index] === 1) {
@@ -143,9 +145,6 @@
           val = this.colorV2[index]
         }
         return val === 1 ? 'danger' : 'primary'
-      },
-      timeBetweenThread (i) {
-        return (this.parallel) ? 0 : i * this.animTime
       },
       init () {
         for (let i in this.slice(this.v1.length)) {
@@ -175,7 +174,7 @@
       animTime () {
         return this.$parent.animTime
       },
-      nbCore() {
+      nbCore () {
         return this.$parent.nbCore
       }
     },
