@@ -2,14 +2,6 @@
     <div id="app container-fluid">
         <div class="row">
             <div class="col-lg-6 col-12">
-                <Code :parallel="true"/>
-            </div>
-            <div class="col-lg-6 col-12">
-                <Code :parallel="false"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-12">
                 <Table :v1="v1" :v2="v2"/>
             </div>
             <div class="col-lg-6 col-12">
@@ -21,13 +13,11 @@
 
 <script>
     import Table from './components/Table'
-    import Code from './components/Code'
 
     export default {
         name: 'app',
         components: {
             Table,
-            Code
         },
         data() {
             return {
