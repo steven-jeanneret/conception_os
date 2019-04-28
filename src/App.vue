@@ -13,7 +13,7 @@
         <div class="col-4">
           <div>
             Number elements : {{nbElem}}
-            <vue-slider v-model="nbElem" :min="1" :max="13" :interval="1"></vue-slider>
+            <vue-slider v-model="nbElem" :min="1" :max="36" :interval="1"></vue-slider>
           </div>
         </div>
       </div>
@@ -96,8 +96,8 @@
         this.v2 = []
         this.fullArrayRandom(this.v1, value)
         this.fullArrayRandom(this.v2, value)
-        this.$refs['table1'].init()
-        this.$refs['table2'].init()
+        this.$refs['table1'].init(this.v1, this.v2)
+        this.$refs['table2'].init(this.v1, this.v2)
       }
     }
   }
