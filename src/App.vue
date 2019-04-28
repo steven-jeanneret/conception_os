@@ -13,7 +13,7 @@
         <div class="col-4">
           <div>
             Number elements : {{nbElem}}
-            <vue-slider v-model="nbElem" :min="1" :max="15" :interval="1"></vue-slider>
+            <vue-slider v-model="nbElem" :min="1" :max="13" :interval="1"></vue-slider>
           </div>
         </div>
       </div>
