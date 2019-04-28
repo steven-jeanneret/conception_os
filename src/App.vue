@@ -1,6 +1,12 @@
 <template>
   <div id="app container-fluid">
     <div class="container my-3 border border-secondary rounded">
+      <div class="row mt-2">
+          <div class="col">
+            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-info"></i></button>
+            <help-modal></help-modal>
+          </div>
+      </div>
       <div class="row justify-content-md-center text-center">
         <div class="col-4">
           <div>
@@ -50,6 +56,7 @@
   import 'vue-slider-component/theme/antd.css'
 
   import Table from './components/Table'
+  import HelpModal from './components/HelpModal'
 
   const baseAnimTime = 500
 
@@ -58,6 +65,7 @@
     components: {
       Table,
       VueSlider,
+      HelpModal,
     },
     data () {
       return {
