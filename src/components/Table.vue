@@ -104,20 +104,29 @@
       },
       reduction () {
         let totalSleep = 0
-        for (let j = 0; j < this.vReduction.length; ++j) {
-          this.colorVReduction[j] = [0]
-          let timeSleep = 0
-          for (let i = 0; i < this.vReduction[j].length; ++i) {
-            timeSleep = ((this.parallel ? (Math.floor(i / this.nbCore)) : i) + 1) * this.animTime
-            setTimeout(() => {
-              Vue.set(this.colorVReduction[j], i, 1)
-              this.$forceUpdate() //Force redraw else redraw when all cell are finished
-              if (j === this.vReduction.length - 1 && i === this.vReduction[j].length - 1) {
-                this.animIsRunning = false //Last cell draw, anim is finished
-              }
-            }, totalSleep + timeSleep)
+        if (this.parallel) {
+          for (let j = 1; j < this.vReduction.length; ++j) {
+            this.colorVReduction[j] = [0]
+            let timeSleep = 0
+            for (let i = 0; i < this.vReduction[j].length; ++i) {
+              timeSleep = (Math.floor(i / this.nbCore) + 1) * this.animTime
+              setTimeout(() => {
+                Vue.set(this.colorVReduction[j], i, 1)
+                this.$forceUpdate() //Force redraw else redraw when all cell are finished
+                if (j === this.vReduction.length - 1 && i === this.vReduction[j].length - 1) {
+                  this.animIsRunning = false //Last cell draw, anim is finished
+                }
+              }, totalSleep + timeSleep)
+            }
+            totalSleep += timeSleep
           }
-          totalSleep += timeSleep
+        } else {
+          this.colorVReduction[1] = [0]
+          setTimeout(() => {
+            Vue.set(this.colorVReduction[1], 0, 1)
+            this.$forceUpdate()
+            this.animIsRunning = false
+          }, this.vReduction[0].length * this.animTime)
         }
       },
       slice (n) {
@@ -157,40 +166,56 @@
         let moitier = this.vResult.length
         this.vReduction[0] = this.vResult
         let j = 0
-
-        while (moitier > 1) {
-          moitier = Math.round(this.vReduction[j].length / 2)
-          ++j
-          this.vReduction[j] = []
-          for (let i = 0; i < moitier; i++) {
-            this.vReduction[j][i] = this.vReduction[j - 1][i]
-            if (i + moitier < this.vReduction[j - 1].length) {
-              this.vReduction[j][i] += this.vReduction[j - 1][i + moitier]
+        if (this.parallel) {
+          while (moitier > 1) {
+            moitier = Math.round(this.vReduction[j].length / 2)
+            ++j
+            this.vReduction[j] = []
+            for (let i = 0; i < moitier; i++) {
+              this.vReduction[j][i] = this.vReduction[j - 1][i]
+              if (i + moitier < this.vReduction[j - 1].length) {
+                this.vReduction[j][i] += this.vReduction[j - 1][i + moitier]
+              }
             }
           }
-          Vue.set(this.vReductionIndex, j, j)
-          this.cleanAnmiation()
+        } else {
+          this.vReduction[1] = [this.vReduction[0][0]]
+          for (let i = 1; i < this.vReduction[0].length; i++) {
+            this.vReduction[1][0] += this.vReduction[0][i]
+          }
         }
-      }
+        Vue.set(this.vReductionIndex, j, j)
+        this.cleanAnmiation()
+      },
     },
     computed: {
       animTime () {
         return this.$parent.animTime
-      },
+      }
+      ,
       nbCore () {
         return this.$parent.nbCore
       }
-    },
+    }
+    ,
     props: {
-      v1: { type: Array },
-      v2: { type: Array },
-      parallel: { type: Boolean, default: false }
-    },
+      v1: { type: Array }
+      ,
+      v2: { type: Array }
+      ,
+      parallel: {
+        type: Boolean,
+        default:
+          false
+      }
+    }
+    ,
     mounted () {
       this.$nextTick(() => {
         this.init(this.v1, this.v2)
       })
-    },
+    }
+    ,
   }
 </script>
 
