@@ -149,6 +149,7 @@
       init (v1, v2) {
         this.v1 = v1
         this.v2 = v2
+        this.vResult = []
         for (let i in this.slice(this.v1.length)) {
           this.vResult[i] = this.v1[i] * this.v2[i]
         }
