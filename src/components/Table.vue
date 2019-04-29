@@ -187,7 +187,7 @@
     },
     mounted () {
       this.$nextTick(() => {
-        this.init()
+        this.init(this.v1, this.v2)
       })
     },
   }
