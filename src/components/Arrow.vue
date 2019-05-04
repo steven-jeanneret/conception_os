@@ -15,9 +15,6 @@
     },
     computed: {
       textColor () {
-        // if (this.reduction) {
-        //   return 'text-primary'
-        // }
         return 'text-' + this.$parent.colorComponent(this.nbArray, this.index, this.reduction)
       },
       isVisible () {

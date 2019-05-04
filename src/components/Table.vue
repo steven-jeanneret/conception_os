@@ -25,9 +25,7 @@
     </div>
     <div>
       <div class="my-2 table_container border border-primary" v-show="colorV2[0]">
-        <cell v-for="i in slice(v1.length)" :key="i" class="element" :value="vResult[i]" v-show="colorV2[i]"
-              :nb-array="2"
-              :index="i"/>
+        <cell v-for="i in slice(v1.length)" :key="i" class="element" :value="vResult[i]" v-show="colorV2[i]"  :nb-array="2" :index="i"/>
       </div>
     </div>
 
